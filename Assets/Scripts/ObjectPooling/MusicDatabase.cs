@@ -19,9 +19,9 @@ public class MusicDatabase : SerializedScriptableObject
         }
     }
 
-    public AudioClip GetRandomAudio()
+   /* public AudioClip GetRandomAudio()
     {
         return ClipDatabase[0, ClipDatabase.Count];
 
-    }
+    }*/
 }
