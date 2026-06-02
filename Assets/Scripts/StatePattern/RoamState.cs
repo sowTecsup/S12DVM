@@ -25,7 +25,7 @@ public class RoamState : IState
     {
         if(PlayerInDetectionRange())
         {
-           // stateMachine.ChangeState();
+            stateMachine.ChangeState(enemyController.ChaseState);
             return;
         }
 
@@ -51,6 +51,9 @@ public class RoamState : IState
     {
         //-> vector3 randomdir = new vector3(randoimasdmamsdmasdmamsd).normalized
         Vector3 randomDirection = Random.insideUnitSphere * enemyController.RoamRadius;
+       
+
+        //randomDirection += enemyController.PlayerTransform.transform.position;
         randomDirection += enemyController.transform.position;
 
         NavMeshHit hit;
@@ -67,8 +70,19 @@ public class RoamState : IState
 
         foreach(Collider collider in hits)
         {
-            if(collider.CompareTag("Player"))
-                return true;
+            if (collider.CompareTag("Player"))
+            {
+                Vector3 dir = (enemyController.PlayerTransform.transform.position - enemyController.transform.position).normalized;
+
+                if(Vector3.Dot(enemyController.transform.forward, dir) > 0.7f)
+                {
+                    return true;
+                } 
+                else
+                {
+                    return false;
+                }
+            }
         }
         return false;
 

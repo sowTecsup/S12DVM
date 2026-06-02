@@ -13,16 +13,29 @@ public class ChaseState : IState
 
     public void Enter()
     {
-        
+        Debug.Log("Enemigo empezo a perseguir al player");
     }
     public void Update()
     {
+        float distanceToPlayer = Vector3.Distance(enemyController.transform.position, enemyController.PlayerTransform.position);
+        if(distanceToPlayer <= enemyController.AttackRange)
+        {
+            stateMachine.ChangeState(enemyController.AttackState);
+            return;
+        }
+        if(distanceToPlayer > enemyController.DetectionRange)
+        {
+            stateMachine.ChangeState(enemyController.RoamState);
+            return;
+        }
 
+        enemyController.Agent.SetDestination(enemyController.PlayerTransform.position);
     }
 
     public void Exit()
     {
-       
+        Debug.Log("Saliendo del chase State");
+        enemyController.Agent.ResetPath();
     }
 
     

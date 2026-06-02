@@ -40,6 +40,8 @@ public class EnemyController : MonoBehaviour
         AttackState = new AttackState(stateMachine, this);
         DeadState = new DeadState(stateMachine, this);
 
+        stateMachine.Initialize(RoamState);
+
     }
     void Update()
     {
@@ -50,7 +52,7 @@ public class EnemyController : MonoBehaviour
         CurrentHealth -= amount;
         if (CurrentHealth < 0)
         {
-            //->state change to dead
+            stateMachine.ChangeState(DeadState);
         }
     }
     public void OnDrawGizmos()
@@ -60,5 +62,8 @@ public class EnemyController : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, AttackRange);
+
+        Gizmos.color = Color.purple;
+        Gizmos.DrawWireSphere(transform.position, RoamRadius);
     }
 }
